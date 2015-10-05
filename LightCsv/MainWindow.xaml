@@ -1,0 +1,27 @@
+﻿<Window x:Class="LightCsv.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LightCsv"
+        mc:Ignorable="d"
+        Title="Light CSV" Height="350" Width="525">
+    
+
+    <Grid >
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Click="MenuItem_Click"/>
+                    <MenuItem Header="_Save" Click="MenuItem_Click_1"/>
+                    <MenuItem Header="_Separator" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="separatorChoice" Width="20" TextChanged="separatorChoice_TextChanged"/>
+                        </StackPanel>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+            <DataGrid DockPanel.Dock="Bottom" Name="csvDataGrid" />
+        </DockPanel>
+    </Grid>
+</Window>

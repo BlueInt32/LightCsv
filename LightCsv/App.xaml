@@ -1,0 +1,11 @@
+﻿<Application x:Class="LightCsv.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LightCsv"
+             Startup="Application_Startup">
+    <Application.Resources>
+        <Style x:Key="DataGridDemoRowStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="#88800080" />
+        </Style>
+    </Application.Resources>
+</Application>
