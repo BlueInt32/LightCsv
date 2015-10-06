@@ -5,23 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LightCsv"
         mc:Ignorable="d"
-        Title="Light CSV" Height="350" Width="525">
-    
+        Title="Light CSV" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.SaveByKeyboardCommand}" Executed="SaveCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:MainWindow.OpenByKeyboardCommand}" Executed="OpenCommandExecuted"/>
+    </Window.CommandBindings>
 
-    <Grid >
-        <DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_Open" Click="MenuItem_Click"/>
-                    <MenuItem Header="_Save" Click="MenuItem_Click_1"/>
-                    <MenuItem Header="_Separator" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox x:Name="separatorChoice" Width="20" TextChanged="separatorChoice_TextChanged"/>
-                        </StackPanel>
-                    </MenuItem>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Click="MenuItem_Click_Open"/>
+                <MenuItem Header="_Save" Click="MenuItem_Click_Save"/>
+                <MenuItem Header="_Save As..." Click="MenuItem_Click_SaveAs"/>
+                <MenuItem Header="_Add A Column" Click="MenuItem_Click_AddColumn"/>
+                <MenuItem Header="_Separator" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="separatorChoice" Width="20" TextChanged="separatorChoice_TextChanged"/>
+                    </StackPanel>
                 </MenuItem>
-            </Menu>
-            <DataGrid DockPanel.Dock="Bottom" Name="csvDataGrid" />
-        </DockPanel>
-    </Grid>
+            </MenuItem>
+        </Menu>
+        <DataGrid 
+            DockPanel.Dock="Bottom" 
+            Name="csvDataGrid" 
+            BorderThickness="0" 
+            FontSize="14.667" 
+            FontFamily="Consolas" 
+            HorizontalGridLinesBrush="#FFA8A8A8" 
+            VerticalGridLinesBrush="#FFA8A8A8" 
+            DataGridCell.GotFocus="DataGrid_CellGotFocus" AlternatingRowBackground="#FFE4EBF1" SelectionUnit="Cell"/>
+    </DockPanel>
 </Window>
