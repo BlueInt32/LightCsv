@@ -66,18 +66,16 @@ namespace LightCsv
                     string[] currentRowfields = parser.ReadFields();
                     if (rowCount == 0) // build csv type dynamically
                     {
-                        List<string> formattedColumnsNames = new List<string>();
-                        currentRowfields.ToList().ForEach(f => formattedColumnsNames.Add(f.Replace(" ", "$")));
-                        dynamicCsvType = CsvTypeBuilder.CreateNewObject(formattedColumnsNames);
+						dynamicTypeFields = currentRowfields.ToList();
+						dynamicCsvType = CsvTypeBuilder.CreateNewObject(dynamicTypeFields);
                     }
                     else
                     {
                         var myObject = Activator.CreateInstance(dynamicCsvType);
-                        for (int i = 0; i < dynamicTypeFields.Count; i++)
+						for (int i = 0; i < dynamicTypeFields.Count; i++)
                         {
-                            dynamicTypeFields[i] = dynamicTypeFields[i].Replace(" ", "$");
-                            var property = myObject.GetType().GetProperty(dynamicTypeFields[i]);
-                            property.SetValue(myObject, currentRowfields[i]);
+							var property = myObject.GetType().GetProperty(dynamicTypeFields[i]);
+							property.SetValue(myObject, currentRowfields[i]);
                         }
                         itemsSource.Add(myObject);
                     }
@@ -177,8 +175,9 @@ namespace LightCsv
 
         private void MenuItem_Click_AddColumn(object sender, RoutedEventArgs e)
         {
+
             DataGridTextColumn textColumn = new DataGridTextColumn();
-            textColumn.Header = "First Name";
+            textColumn.Header = "Test";
             textColumn.Binding = new Binding("FirstName");
             csvDataGrid.Columns.Add(textColumn);
         }
