@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LightCsv"
         mc:Ignorable="d"
-        Title="Light CSV" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight">
+        Title="Light CSV" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight"
+        Icon="csv.ico">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.SaveByKeyboardCommand}" Executed="SaveCommandExecuted"/>
         <CommandBinding Command="{x:Static local:MainWindow.OpenByKeyboardCommand}" Executed="OpenCommandExecuted"/>
@@ -29,7 +30,7 @@
             DockPanel.Dock="Bottom" 
             Name="csvDataGrid" 
             BorderThickness="0" 
-            FontSize="14.667" 
+            FontSize="13" 
             FontFamily="Consolas" 
             HorizontalGridLinesBrush="#FFA8A8A8" 
             VerticalGridLinesBrush="#FFA8A8A8" 

@@ -20,10 +20,11 @@ namespace LightCsv
         {
             TypeBuilder tb = GetTypeBuilder();
             ConstructorBuilder constructor = tb.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
-
-            // NOTE: assuming your list contains Field objects with fields FieldName(string) and FieldType(Type)
+            
             foreach (var field in fieldsNames)
+            {
                 CreateProperty(tb, field, typeof(string));
+            }
 
             Type objectType = tb.CreateType();
             return objectType;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -61,21 +62,28 @@ namespace LightCsv
                 parser.SetDelimiters(separator.ToString());
                 int rowCount = 0;
                 List<string> dynamicTypeFields = new List<string>();
+                var expectedColumnsCount = dynamicTypeFields.Count;
                 while (!parser.EndOfData)
                 {
                     string[] currentRowfields = parser.ReadFields();
+                    
                     if (rowCount == 0) // build csv type dynamically
                     {
-						dynamicTypeFields = currentRowfields.ToList();
-						dynamicCsvType = CsvTypeBuilder.CreateNewObject(dynamicTypeFields);
+                        dynamicTypeFields = currentRowfields.Select(fieldName => fieldName.Replace("_", "__")).ToList(); // datagrid needs underscores to be escaped (unless removed)
+                        dynamicCsvType = CsvTypeBuilder.CreateNewObject(dynamicTypeFields);
                     }
                     else
                     {
+                        var currentLineColumnsCount = currentRowfields.Count();
                         var myObject = Activator.CreateInstance(dynamicCsvType);
-						for (int i = 0; i < dynamicTypeFields.Count; i++)
+                        for (int i = 0; i < currentLineColumnsCount; i++)
                         {
-							var property = myObject.GetType().GetProperty(dynamicTypeFields[i]);
-							property.SetValue(myObject, currentRowfields[i]);
+                            if (i >= dynamicTypeFields.Count)
+                            {
+                                continue;
+                            }
+                            var property = myObject.GetType().GetProperty(dynamicTypeFields[i]);
+                            property.SetValue(myObject, currentRowfields[i]);
                         }
                         itemsSource.Add(myObject);
                     }
@@ -119,15 +127,26 @@ namespace LightCsv
         }
         private void Save_File()
         {
-            //csvDataGrid.
             csvDataGrid.SelectAllCells();
             csvDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
             ApplicationCommands.Copy.Execute(null, csvDataGrid);
             csvDataGrid.UnselectAllCells();
-            string result2 = (string)Clipboard.GetData(DataFormats.Text);
-            result2 = result2.Trim();
-            //result2 = result2.Substring(0, result2.LastIndexOf('\r'));
-            File.WriteAllText(FileOpened, result2.Replace('\t', separator));
+            string resultCsvContent = (string)Clipboard.GetData(DataFormats.Text);
+            int lastNewLine = resultCsvContent.Trim('\n').LastIndexOf('\n');
+            resultCsvContent = resultCsvContent.Substring(0, lastNewLine);
+            resultCsvContent = Regex.Replace(resultCsvContent, @"^\s+$", "", RegexOptions.Multiline);
+            resultCsvContent = resultCsvContent
+                .Replace('\t', separator)
+                .Trim()
+                .Replace("__", "_");
+            try
+            {
+                File.WriteAllText(FileOpened, resultCsvContent);
+            }
+            catch
+            {
+                MessageBox.Show("Cannot write the file. Maybe check if it is being used by another program.");
+            }
         }
 
         private void separatorChoice_TextChanged(object sender, TextChangedEventArgs e)
@@ -144,12 +163,6 @@ namespace LightCsv
                 // Starts the Edit on the row;
                 DataGrid grd = (DataGrid)sender;
                 grd.BeginEdit(e);
-
-                Control control = GetFirstChildByType<Control>(e.OriginalSource as DataGridCell);
-                if (control != null)
-                {
-                    control.Focus();
-                }
             }
         }
 
