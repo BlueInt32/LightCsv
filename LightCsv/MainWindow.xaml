@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:LightCsv"
         mc:Ignorable="d"
         Title="Light CSV" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight"
-        Icon="csv.ico">
+        Icon="csv.ico" ResizeMode="NoResize"
+        >
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.SaveByKeyboardCommand}" Executed="SaveCommandExecuted"/>
         <CommandBinding Command="{x:Static local:MainWindow.OpenByKeyboardCommand}" Executed="OpenCommandExecuted"/>
@@ -26,14 +27,43 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <DataGrid 
-            DockPanel.Dock="Bottom" 
-            Name="csvDataGrid" 
-            BorderThickness="0" 
-            FontSize="13" 
-            FontFamily="Consolas" 
-            HorizontalGridLinesBrush="#FFA8A8A8" 
-            VerticalGridLinesBrush="#FFA8A8A8" 
-            DataGridCell.GotFocus="DataGrid_CellGotFocus" AlternatingRowBackground="#FFE4EBF1" SelectionUnit="Cell"/>
+
+        <DataGrid
+            DockPanel.Dock="Bottom"
+            Name="csvDataGrid"
+            BorderThickness="0"
+            FontSize="13"
+            FontFamily="Consolas"
+            HorizontalGridLinesBrush="#FFacbcca"
+            VerticalGridLinesBrush="#FFacbcca"
+            CellEditEnding="resultGrid_CellEditEnding"
+            BeginningEdit="csvDataGrid_BeginningEdit_1"
+            SelectionUnit="Cell"
+            AlternatingRowBackground="#FFccd4db"
+            
+            >
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="IsTabStop" Value="False" />
+                    <Setter Property="Focusable" Value="False" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="IsEditing" Value="True" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.Resources>
+                <Style x:Key="RightAlignedCell" TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="IsEditing" Value="True">
+                            <Setter Property="Background" Value="Yellow" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+            
+        <!--DataGridCell.GotFocus="DataGrid_CellGotFocus"-->
     </DockPanel>
 </Window>

@@ -22,6 +22,30 @@ namespace LightCsv
         private Type dynamicCsvType = null;
         List<object> itemsSource = new List<object>();
         private string _fileOpened;
+        private bool _modified = false;
+
+        private string _currentCellBeforeEdit = string.Empty;
+
+        private void csvDataGrid_BeginningEdit_1(object sender, DataGridBeginningEditEventArgs e)
+        {
+            //_currentCellBeforeEdit = (e.EditingEventArgs.OriginalSource as DataGridCell).;
+            var x = e.Column.GetCellContent(e.Row) as TextBlock;
+            _currentCellBeforeEdit = x != null ? x.Text : string.Empty;
+            
+        }
+        void resultGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            var editingTextBox = e.EditingElement as TextBox;
+            if (_currentCellBeforeEdit != editingTextBox.Text)
+            {
+                if (!_modified)
+                {
+                    Title += " *";
+                    _modified = true;
+                }
+            }
+            _currentCellBeforeEdit = editingTextBox.Text;
+        }
 
         public string FileOpened
         {
@@ -66,7 +90,7 @@ namespace LightCsv
                 while (!parser.EndOfData)
                 {
                     string[] currentRowfields = parser.ReadFields();
-                    
+
                     if (rowCount == 0) // build csv type dynamically
                     {
                         dynamicTypeFields = currentRowfields.Select(fieldName => fieldName.Replace("_", "__")).ToList(); // datagrid needs underscores to be escaped (unless removed)
@@ -90,9 +114,10 @@ namespace LightCsv
                     rowCount++;
                 }
             }
-            //csvDataGrid.
             csvDataGrid.ItemsSource = itemsSource;
         }
+
+
 
         private void MenuItem_Click_Open(object sender, RoutedEventArgs e)
         {
@@ -127,6 +152,7 @@ namespace LightCsv
         }
         private void Save_File()
         {
+            csvDataGrid.CommitEdit();
             csvDataGrid.SelectAllCells();
             csvDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
             ApplicationCommands.Copy.Execute(null, csvDataGrid);
@@ -147,6 +173,8 @@ namespace LightCsv
             {
                 MessageBox.Show("Cannot write the file. Maybe check if it is being used by another program.");
             }
+            Title = "Light CSV - " + FileOpened.Substring(FileOpened.LastIndexOf("\\") + 1);
+            _modified = false;
         }
 
         private void separatorChoice_TextChanged(object sender, TextChangedEventArgs e)
@@ -155,16 +183,6 @@ namespace LightCsv
             LoadFile(FileOpened);
         }
 
-        private void DataGrid_CellGotFocus(object sender, RoutedEventArgs e)
-        {
-            // Lookup for the source to be DataGridCell
-            if (e.OriginalSource.GetType() == typeof(DataGridCell))
-            {
-                // Starts the Edit on the row;
-                DataGrid grd = (DataGrid)sender;
-                grd.BeginEdit(e);
-            }
-        }
 
         private T GetFirstChildByType<T>(DependencyObject prop) where T : DependencyObject
         {
@@ -194,5 +212,6 @@ namespace LightCsv
             textColumn.Binding = new Binding("FirstName");
             csvDataGrid.Columns.Add(textColumn);
         }
+
     }
 }
