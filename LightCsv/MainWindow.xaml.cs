@@ -83,14 +83,16 @@ namespace LightCsv
             using (TextFieldParser parser = new TextFieldParser(fileName))
             {
                 parser.TextFieldType = FieldType.Delimited;
+                // parser
+                parser.HasFieldsEnclosedInQuotes = true;
                 parser.SetDelimiters(separator.ToString());
                 int rowCount = 0;
                 List<string> dynamicTypeFields = new List<string>();
                 var expectedColumnsCount = dynamicTypeFields.Count;
                 while (!parser.EndOfData)
                 {
-                    string[] currentRowfields = parser.ReadFields();
-
+                    string line = parser.ReadLine();
+                    string[] currentRowfields = line.Split(separator);
                     if (rowCount == 0) // build csv type dynamically
                     {
                         dynamicTypeFields = currentRowfields.Select(fieldName => fieldName.Replace("_", "__")).ToList(); // datagrid needs underscores to be escaped (unless removed)
@@ -164,7 +166,7 @@ namespace LightCsv
             resultCsvContent = resultCsvContent
                 .Replace('\t', separator)
                 .Trim()
-                .Replace("__", "_");
+                .Replace("__", "_"); // the wpf grid removes the "_" so we had to escape it. Todo : do it only on the first line of the csv
             try
             {
                 File.WriteAllText(FileOpened, resultCsvContent);
