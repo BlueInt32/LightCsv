@@ -42,7 +42,7 @@
             AlternatingRowBackground="#FFccd4db"
             
             >
-            <DataGrid.CellStyle>
+            <!--<DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="IsTabStop" Value="False" />
                     <Setter Property="Focusable" Value="False" />
@@ -52,16 +52,7 @@
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.CellStyle>
-            <DataGrid.Resources>
-                <Style x:Key="RightAlignedCell" TargetType="{x:Type DataGridCell}">
-                    <Style.Triggers>
-                        <Trigger Property="IsEditing" Value="True">
-                            <Setter Property="Background" Value="Yellow" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.Resources>
+            </DataGrid.CellStyle>-->
         </DataGrid>
             
         <!--DataGridCell.GotFocus="DataGrid_CellGotFocus"-->

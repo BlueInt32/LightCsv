@@ -28,10 +28,9 @@ namespace LightCsv
 
         private void csvDataGrid_BeginningEdit_1(object sender, DataGridBeginningEditEventArgs e)
         {
-            //_currentCellBeforeEdit = (e.EditingEventArgs.OriginalSource as DataGridCell).;
             var x = e.Column.GetCellContent(e.Row) as TextBlock;
             _currentCellBeforeEdit = x != null ? x.Text : string.Empty;
-            
+
         }
         void resultGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
