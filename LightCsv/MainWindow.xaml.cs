@@ -32,8 +32,17 @@ namespace LightCsv
             _currentCellBeforeEdit = x != null ? x.Text : string.Empty;
 
         }
+
+        private bool isManualEditCommit;
         void resultGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
+            if (!isManualEditCommit)
+            {
+                isManualEditCommit = true;
+                DataGrid grid = (DataGrid)sender;
+                grid.CommitEdit(DataGridEditingUnit.Row, true);
+                isManualEditCommit = false;
+            }
             var editingTextBox = e.EditingElement as TextBox;
             if (_currentCellBeforeEdit != editingTextBox.Text)
             {
@@ -214,5 +223,9 @@ namespace LightCsv
             csvDataGrid.Columns.Add(textColumn);
         }
 
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

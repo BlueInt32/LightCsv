@@ -1,9 +1,9 @@
 EXTERNAL_ID;COMPANY_ID;NAME;TYPE;BRAND;GPC_CATEGORY;RAW_MATERIAL;CODE_VALUE;CODE_FORMAT;PACKAGING;NET_CONTENT_VALUE;NET_CONTENT_UNIT;AVAILABILITY_START_DATE;AVAILABILITY_END_DATE
 PR1;;PR1;qzef;Brand1;qzefqzef;;1234567890123;UPC CODE - EAN-13;PACKAGING TYPE - Carton;500;UOM - Grams;2015-12-16;2016-03-15
-PR2;Company3;PR2;qef;None;GPC_50000000;RM - Water chesnut [Eleocharis];123456;UPC CODE - Internal code;PACKAGING TYPE - Bag;1;UOM - Metric Ton;2015-11-16;2025-11-16
+PR2;Compan y 3 ;PR2;qef;None;GPC_50000000;RM - Water chesnut [Eleocharis];123456;UPC CODE - Internal code;PACKAGING TYPE - Bag;1;UOM - Metric Ton;2015-11-16;2025-11-16
 PR3;;PR3;qzef;None;qzef;;;;;;;2015-11-16;
 PR4;qef;PR4;qzef;Brand4;qzefqzef;;1234567890123;UPC CODE - EAN-13;PACKAGING TYPE - Carton;500;UOM - Grams;2015-12-16;2016-03-15
-PR5;;PR5;qzef;None;GPC_50000000;RM - Water chesnut [Eleocharis];123456;UPC CODE - Internal code;PACKAGING TYPE - Bag;;;2015-11-16;2025-11-16
+PR5;;PR5;qzef;None;GPC_5 0000000;RM - Water chesnut [Eleocharis];123456;UPC CODE - Internal code;PACKAGING TYPE - Bag;;;2015-11-16;2025-11-16
 PR6;;PR6;qzefqzf;None;qef;RM - nope[Eleocharis];123456;UPC CODE - Internal code;;1;UOM - Metric Ton;2015-11-16;2025-11-16
 PR7;Company3;PR7;qzef;None;qfe;RM  [Eleocharis];123456;UPC CODE - Internal code;PACKAGING TYPE - Bag;1;UOM - Metric Ton;2015-11-16;2025-11-16
 PR8;Company3;PR8;qzef;None;qsdfq;RM - Water chesnut [Eleocharis];123456;UPC CODE - Internal code;PACKAGING TYPE - Bag;1;UOM - Metric Ton;2015-11-16;2025-11-16
