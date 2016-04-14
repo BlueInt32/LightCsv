@@ -23,6 +23,11 @@ namespace LightCsv
         List<object> itemsSource = new List<object>();
         private string _fileOpened;
         private bool _modified = false;
+        private bool isManualEditCommit;
+
+        public static RoutedCommand SaveByKeyboardCommand = new RoutedCommand();
+        public static RoutedCommand OpenByKeyboardCommand = new RoutedCommand();
+        private bool _directEditMode;
 
         private string _currentCellBeforeEdit = string.Empty;
 
@@ -33,7 +38,6 @@ namespace LightCsv
 
         }
 
-        private bool isManualEditCommit;
         void resultGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (!isManualEditCommit)
@@ -63,8 +67,6 @@ namespace LightCsv
 
         char separator = ';';
 
-        public static RoutedCommand SaveByKeyboardCommand = new RoutedCommand();
-        public static RoutedCommand OpenByKeyboardCommand = new RoutedCommand();
         private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             Keyboard.ClearFocus();
@@ -223,8 +225,56 @@ namespace LightCsv
             csvDataGrid.Columns.Add(textColumn);
         }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void DataGridCell_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (!_directEditMode)
+                return;
+            DataGridCell cell = sender as DataGridCell;
+            if (cell != null && !cell.IsEditing && !cell.IsReadOnly)
+            {
+                if (!cell.IsFocused)
+                {
+                    cell.Focus();
+                }
+                DataGrid dataGrid = FindVisualParent<DataGrid>(cell);
+                if (dataGrid != null)
+                {
+                    if (dataGrid.SelectionUnit != DataGridSelectionUnit.FullRow)
+                    {
+                        if (!cell.IsSelected)
+                            cell.IsSelected = true;
+                    }
+                    else
+                    {
+                        DataGridRow row = FindVisualParent<DataGridRow>(cell);
+                        if (row != null && !row.IsSelected)
+                        {
+                            row.IsSelected = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        static T FindVisualParent<T>(UIElement element) where T : UIElement
+        {
+            UIElement parent = element;
+            while (parent != null)
+            {
+                T correctlyTyped = parent as T;
+                if (correctlyTyped != null)
+                {
+                    return correctlyTyped;
+                }
+
+                parent = VisualTreeHelper.GetParent(parent) as UIElement;
+            }
+            return null;
+        }
+        
+        private void directEditMode_Click(object sender, RoutedEventArgs e)
+        {
+            _directEditMode = !_directEditMode;
 
         }
     }

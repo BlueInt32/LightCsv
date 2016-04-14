@@ -26,6 +26,7 @@
                     </StackPanel>
                 </MenuItem>
             </MenuItem>
+            <CheckBox x:Name="directEditMode" Content="Direct Edit Mode" Click="directEditMode_Click"/>
         </Menu>
 
         <DataGrid
@@ -42,7 +43,13 @@
             AlternatingRowBackground="#FFE6E6E6"
             
             >
-            <DataGrid.CellStyle>
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown"></EventSetter>
+                </Style>
+            </DataGrid.Resources>
+            <!--<DataGrid.CellStyle>
+                
                 <Style TargetType="DataGridCell">
                     <Setter Property="BorderThickness" Value="0" />
                     <Style.Triggers>
@@ -52,7 +59,7 @@
                             <Setter Property="Foreground" Value="Black" />
                             <Setter Property="BorderThickness" Value="0" />
                         </Trigger>
-                        <Trigger Property="IsEditing"
+                        --><!--<Trigger Property="IsEditing"
                         Value="True">
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -68,25 +75,10 @@
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-                        </Trigger>
+                        </Trigger>--><!--
                     </Style.Triggers>
                 </Style>
-            </DataGrid.CellStyle>
-            <DataGrid.Resources>
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                <Border Name="DataGridCellBorder">
-                                    <TextBlock Background="Transparent" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" Height="auto" Width="auto">
-        <ContentPresenter Content="{TemplateBinding Property=ContentControl.Content}"  ContentTemplate="{TemplateBinding Property=ContentControl.Content}" />
-                                    </TextBlock>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.Resources>
+            </DataGrid.CellStyle>-->
         </DataGrid>
         
     </DockPanel>
