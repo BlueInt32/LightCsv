@@ -46,6 +46,7 @@ namespace LightCsv
                 DataGrid grid = (DataGrid)sender;
                 grid.CommitEdit(DataGridEditingUnit.Row, true);
                 isManualEditCommit = false;
+                return;
             }
             var editingTextBox = e.EditingElement as TextBox;
             if (_currentCellBeforeEdit != editingTextBox.Text)
